@@ -2,9 +2,7 @@ const dotenv =require('dotenv');
 const compression = require('compression')
 const cors = require('cors');
 const express =require('express');
-const expressValidator = require('express-validator');
 const helmet = require('helmet');
-const httpStatus = require( 'http-status');
 const mongoose = require('mongoose');
 const winston = require('winston');
 
@@ -36,14 +34,15 @@ app.use(customBodyTrimmer());
 app.use(cors());
 
 // // enable detailed API logging in dev env
-if (config.env === 'development') {
+if (process.env.NODE_ENV === 'development') {
   logger.add(new winston.transports.Console({
     format: winston.format.simple(),
   }));
 }
 
-// DB connection
-
+// This function will be invoked right away we don't have to call it
+(function () {
+	// DB connection
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true,
   autoIndex: true,
 }, () => {
@@ -52,6 +51,7 @@ mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedT
 mongoose.connection.on('error', (err) => {
     console.log(err, 'Database connection error');
 });
+})();
 
 // Routes registration
 app.get('/', (req, res) => {

@@ -29,7 +29,11 @@ services.login = async data => {
     if (!user) {
         throw new Error("No such user exist");
     }
-    const token = jwtLib.createToken(user)
+    const isValid = await bcrypt.compare(data.password, user.password);
+    if (!isValid) {
+        throw new Error("Invalid password");
+    }
+   const token = jwtLib.createToken(user)
     return (data = {
         userId: user._id,
         email: user.email,
