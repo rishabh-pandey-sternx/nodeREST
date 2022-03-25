@@ -11,6 +11,8 @@
  * 
  */
   auth.signUp = async (req, res, next) => {
+    const {value,error} = authValidator.createUser(req,res,next);
+    if(error) return responseTransformer(res, error, 'Schema Validation Failed', false);
     try {
       const result = await authService.signup(req.body);
       return responseTransformer(res, result, 'Logged User Successfully', true);
@@ -29,6 +31,8 @@
  */
 
   auth.login = async (req, res, next) => {
+    const {value, error} = authValidator.login(req,res,next);
+    if(error) return responseTransformer(res, error, 'Schema Validation Failed', false);
     try {
       const result = await authService.login(req.body);
       return responseTransformer(res, result, 'Logged User Successfully', true);
@@ -39,15 +43,8 @@
   };
     
   auth.forgotPassword = async (req, res, next) => {
-    // const validate = authValidator.validateForgotPassword(req);
-    // if (validate.length) {
-    //   return responseTransformer(
-    //     res,
-    //     validate,
-    //     'Schema Validation Failed',
-    //     false
-    //   );
-    // }
+    const {value, error} = authValidator.forgotPassword(req,res,next);
+    if(error) return responseTransformer(res, error, 'Schema Validation Failed', false);
     try {
        const result = await authService.passwordResetMail(req.body);
       return responseTransformer(res, result, 'Sent Reset Email  Successfully', true);
@@ -65,6 +62,8 @@
  * Endpoint With Query Params:- /reset-password?token=348c2&id=623c985f
  */
   auth.resetPassword = async (req, res, next) => {
+    const {value, error} = authValidator.resetPassword(req,res,next);
+    if(error) return responseTransformer(res, error, 'Schema Validation Failed', false);
     try {
        const result = await authService.resetPassword(req.query, req.body);
       return responseTransformer(res, result, 'Password Changed Successfully', true);
