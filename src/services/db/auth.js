@@ -1,8 +1,8 @@
 const { get } = require('lodash');
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const User = require('../../models/users');
-const Token = require('../../models/token');
+const User = require('../../models/user.model');
+const Token = require('../../models/token.model');
 const jwtLib = require('../../utils/jwt');
 
 const sendEmail = require("../thirdParty/mail");
@@ -13,9 +13,9 @@ services.signup = async data => {
     if (user) {
         throw new Error("Email already exist");
     }
-    user = new User(data);
-    const token = jwtLib.createToken(data)
+    user = new User(data);  
     await user.save();
+    const token = jwtLib.createToken(user)
     return (data = {
         userId: user._id,
         email: user.email,
@@ -29,7 +29,7 @@ services.login = async data => {
     if (!user) {
         throw new Error("No such user exist");
     }
-    const token = jwtLib.createToken(data)
+    const token = jwtLib.createToken(user)
     return (data = {
         userId: user._id,
         email: user.email,
@@ -37,6 +37,7 @@ services.login = async data => {
         token: token,
     });   
 };
+
 services.passwordResetMail = async data => {
     const user = await User.findOne({ email: data.email });
         if (!user) throw new Error("Email does not exist");
@@ -64,34 +65,23 @@ services.passwordResetMail = async data => {
 
 }
 
- 
-services.resetPassword = async data => {
-    let passwordResetToken = await Token.findOne({ userId:data.id });
+services.resetPassword = async (query,body) => {
+    let passwordResetToken = await Token.findOne({ userId:query.id });
     if (!passwordResetToken) {
       throw new Error("Invalid or expired password reset token");
     }
-    const isValid = await bcrypt.compare(token, passwordResetToken.token);
+    const isValid = await bcrypt.compare(query.token, passwordResetToken.token);
     if (!isValid) {
       throw new Error("Invalid or expired password reset token");
     }
-    const hash = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT));
+    const hash = await bcrypt.hash(body.password, Number(process.env.BCRYPT_SALT));
     await User.updateOne(
-      { _id: userId },
+      { _id: query.id },
       { $set: { password: hash } },
       { new: true }
-    );
-  
-    const user = await User.findById({ _id: userId });
-  
-    sendEmail(
-      user.email,
-      "Password Reset Successfully",
-      {
-        name: user.name,
-      },
-      "./template/resetPassword.handlebars"
-    );
-  
+    ); 
+    const user = await User.findById({ _id: query.id });
     await passwordResetToken.deleteOne();
 }
+
 module.exports = services;

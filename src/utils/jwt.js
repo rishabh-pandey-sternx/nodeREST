@@ -30,7 +30,7 @@ lib.createToken = user => {
   const token = jwt.sign(
     {
       email: user.email,
-      id: user.id,
+      id: user._id,
       userType: user.userType
     },
     process.env.APP_SECRET,

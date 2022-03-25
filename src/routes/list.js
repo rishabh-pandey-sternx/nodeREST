@@ -6,7 +6,7 @@ const {
   getAll,
   create,
   update,
-  destroy
+  destroy,
 } = require("../controllers/list.controller");
 
 // get all lists

@@ -3,7 +3,9 @@ const router = express.Router();
 const authRoute = require('./auth');
 const userRoute = require('./user');
 const listRoute = require('./list');
+
 const userController = require('../controllers/user.controller');
+const listController = require('../controllers/list.controller');
 
 const { verifyJwt} = require('../middlewares/express-jwt');
 /** public Routes */
@@ -26,6 +28,9 @@ router.get('/user', verifyJwt, userController.aboutMe);
 
 // mount all listRoute privileges routes at /lists
 router.use('/lists', verifyJwt, listRoute);
+
+// mount all listRoute privileges routes at /lists
+router.use('/list', verifyJwt, listController.getMyList);
 
 // If the route is protected and token is expired or not provided returing 401 status code
 router.use('*', (err, req, res, next) => {

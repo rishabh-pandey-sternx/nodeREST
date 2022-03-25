@@ -1,0 +1,518 @@
+{
+	"info": {
+		"_postman_id": "77045369-e4f1-47a9-a8bd-ee6d071f3a3d",
+		"name": "REST API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"geekrishabh@gmail.com\",\n    \"password\": \"qwertyuiop@12\",\n    \"fullName\": \"Rishabh Pandey\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v0/auth/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"geekrishabh@gmail.com\",\n    \"password\": \"qwertyuiop@12\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v0/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forgot Password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"geekrishabh@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v0/auth/forgot-password",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"auth",
+						"forgot-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"password\": \"tesm\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v0/auth/reset-password?token=348c2&id=623c985f",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"auth",
+						"reset-password"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "348c2"
+						},
+						{
+							"key": "id",
+							"value": "623c985f"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZWtyaXNoYWJoQGdtYWlsLmNvbSIsImlhdCI6MTY0ODE5ODc3MCwiZXhwIjoxNjQ4Mjg1MTcwfQ.1txpV8ccUaBz_n7fj7L_ku7MWWuWTqwEh6zUVe_SLG",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v0/lists?limit=1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create List",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZWtyaXNoYWJoQGdtYWlsLmNvbSIsImlkIjoiNjIzZDg0NzJkM2Y0YzAxNjQzNTNjOTFjIiwiaWF0IjoxNjQ4MjAxMTg5LCJleHAiOjE2NDgyODc1ODl9.tXfq78xfIOxMjg9QgZZxmUGN31TTOhxe4v4WhD0NNbw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"listName\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v0/lists",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all lists",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZWtyaXNoYWJoQGdtYWlsLmNvbSIsImlhdCI6MTY0ODE5OTYyMiwiZXhwIjoxNjQ4Mjg2MDIyfQ.M99nP48Fte_Xo5EWW1AnxJL46xI27jmxW2eiwNNRyoI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v0/lists?limit=1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all My list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZWtyaXNoYWJoQGdtYWlsLmNvbSIsImlhdCI6MTY0ODE5OTYyMiwiZXhwIjoxNjQ4Mjg2MDIyfQ.M99nP48Fte_Xo5EWW1AnxJL46xI27jmxW2eiwNNRyoI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v0/list",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single list by Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZWtyaXNoYWJoQGdtYWlsLmNvbSIsImlhdCI6MTY0ODE5ODc3MCwiZXhwIjoxNjQ4Mjg1MTcwfQ.1txpV8ccUaBz_n7fj7L_ku7MWWuWTqwEh6zUVe_SLG",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v0/lists/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"lists",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update specific list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZWtyaXNoYWJoQGdtYWlsLmNvbSIsImlhdCI6MTY0ODE5ODc3MCwiZXhwIjoxNjQ4Mjg1MTcwfQ.1txpV8ccUaBz_n7fj7L_ku7MWWuWTqwEh6zUVe_SLG",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v0/lists",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete specific list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZWtyaXNoYWJoQGdtYWlsLmNvbSIsImlhdCI6MTY0ODE5ODc3MCwiZXhwIjoxNjQ4Mjg1MTcwfQ.1txpV8ccUaBz_n7fj7L_ku7MWWuWTqwEh6zUVe_SLG",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v0/lists",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user By Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZWtyaXNoYWJoQGdtYWlsLmNvbSIsImlhdCI6MTY0ODE5OTYyMiwiZXhwIjoxNjQ4Mjg2MDIyfQ.M99nP48Fte_Xo5EWW1AnxJL46xI27jmxW2eiwNNRyoI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v0/users/623d8472d3f4c0164353c91c",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"users",
+						"623d8472d3f4c0164353c91c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZWtyaXNoYWJoQGdtYWlsLmNvbSIsImlhdCI6MTY0ODE5OTYyMiwiZXhwIjoxNjQ4Mjg2MDIyfQ.M99nP48Fte_Xo5EWW1AnxJL46xI27jmxW2eiwNNRyoI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v0/users?limit=1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"users"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete specific user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZWtyaXNoYWJoQGdtYWlsLmNvbSIsImlhdCI6MTY0ODE5OTYyMiwiZXhwIjoxNjQ4Mjg2MDIyfQ.M99nP48Fte_Xo5EWW1AnxJL46xI27jmxW2eiwNNRyoI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v0/users/623c4f942966510e46ddbb0b",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"users",
+						"623c4f942966510e46ddbb0b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZWtyaXNoYWJoQGdtYWlsLmNvbSIsImlhdCI6MTY0ODE5OTYyMiwiZXhwIjoxNjQ4Mjg2MDIyfQ.M99nP48Fte_Xo5EWW1AnxJL46xI27jmxW2eiwNNRyoI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullName\" : \"Rishabh Pandey.  \"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v0/users/623d8472d3f4c0164353c91c",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v0",
+						"users",
+						"623d8472d3f4c0164353c91c"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

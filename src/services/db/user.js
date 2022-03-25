@@ -1,13 +1,11 @@
 const { get } = require('lodash');
-const users = require('../../models/users');
-
-const userSchema = require('../../models/users')
+const user = require('../../models/user.model');
 
 let service = {};
 
 // Create a new user
 service.create = async data => {
-    const userData = new userSchema({
+    const userData = new user({
       email: data.email.toLowerCase(),
       fullName: data.fullName,
       userType: data.userType || 'user',
@@ -24,12 +22,12 @@ service.create = async data => {
 
 // Fetch user by id
 service.getOneById = async data => {
-
+  return await user.findById(data);
 };
 
 // Fetch user by email
 service.getOneByEmail = async data => {
-  let user = await users.findOne({ email: data });
+  let user = await user.findOne({ email: data });
   if (!user) {
       throw new Error("No such user exist");
   }
@@ -44,10 +42,10 @@ service.getAll = async data => {
   try {
     const limit = parseInt(data.limit) || process.env.LIMIT;
     const offset = parseInt(data.skip)  || process.env.SKIP;
-    const usersCollection = await users.find()
+    const usersCollection = await user.find()
       .skip(offset)
       .limit(limit)
-    const usersCollectionCount = await users.count()
+    const usersCollectionCount = await user.count()
     const totalPages = Math.ceil(usersCollectionCount / limit)
     const currentPage = Math.ceil(usersCollectionCount % offset)
     return {
@@ -64,6 +62,11 @@ service.getAll = async data => {
 };
 
 service.destroy = async data => {
+  return await user.findByIdAndDelete({_id:data});
 };
+
+service.update = async (data, id) => {
+  return await user.findByIdAndUpdate({_id:id}, $set = data);
+}
 
   module.exports = service;

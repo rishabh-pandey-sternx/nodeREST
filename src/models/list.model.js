@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const user = require('./user.model')
 
 // create a schema
 var listSchema = new Schema({
-    listId: { type: String, required: true },
     listName: { type: String, required: true },
     userId: {
         type: Schema.Types.ObjectId,

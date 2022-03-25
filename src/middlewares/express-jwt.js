@@ -13,7 +13,7 @@ const validateJwt = (req, res, next) => {
 };
 
 const verifyJwt = (req, res, next) => {
-  const token = jwtLib.tokenFromHeaders(req);
+  const token = jwtLib.getToken(req);
   const user = jwtLib.decode(token);
   if (user) {
     return next();

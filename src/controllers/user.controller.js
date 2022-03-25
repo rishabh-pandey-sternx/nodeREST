@@ -15,8 +15,7 @@ const controller = {};
 
 controller.getOneById = async (req, res, next) => {
   try {
-    const result = await userService.getOne(req.params.id);
-
+    const result = await userService.getOneById(req.params.id);
     if (result) {
       return responseTransformer(res, result, "User Details", true);
     }
@@ -59,7 +58,6 @@ controller.aboutMe = async (req, res, next) => {
 controller.getAll = async (req, res, next) => {
   try {
     const result = await userService.getAll(req.query);
-
     return responseTransformer(res, result, "List of All Users", true);
   } catch (error) {
     return responseTransformer(res, error, "Failed to Load All Users", false);
@@ -74,16 +72,6 @@ controller.getAll = async (req, res, next) => {
  */
 
 controller.create = async (req, res, next) => {
-  // const validate = userValidator.create(req);
-  // if (validate.length) {
-  //   return responseTransformer(
-  //     res,
-  //     validate,
-  //     "Schema Validation Failed",
-  //     false
-  //   );
-  // }
-
   try {
     const result = await userService.create(req.body);
     return responseTransformer(res, result, "New User Created", true);
@@ -100,20 +88,9 @@ controller.create = async (req, res, next) => {
  */
 
 controller.update = async (req, res, next) => {
-  const validate = userValidator.create(req);
-  if (validate.length) {
-    return responseTransformer(
-      res,
-      validate,
-      "Schema Validation Failed",
-      false
-    );
-  }
-
   try {
     const result = await userService.update(req.body, req.params.id);
-
-    if (result && result[0]) {
+    if (result) {
       return responseTransformer(res, result, "User Details Updated", true);
     }
     throw new Error("Can-not Find User With This id");
@@ -123,7 +100,7 @@ controller.update = async (req, res, next) => {
 };
 
 /** deleting user with provide id
- * This is just a soft delete setting active and deleted_at field in db
+ * This is for delete record from db
  * EndPoint:- /users/:id
  * HTTP Method: - DELETE
  * req:{}
@@ -133,8 +110,7 @@ controller.update = async (req, res, next) => {
 controller.destroy = async (req, res, next) => {
   try {
     const result = await userService.destroy(req.params.id);
-
-    if (result && result[0]) {
+    if (result) {
       return responseTransformer(res, result, "User Deleted", true);
     }
     throw new Error("Can-not Find User With This id");

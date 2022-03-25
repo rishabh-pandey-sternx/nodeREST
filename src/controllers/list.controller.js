@@ -33,19 +33,18 @@ controller.getOne = async (req, res, next) => {
  * res:{}
  */
 
-controller.myList = async (req, res, next) => {
+controller.getMyList = async (req, res, next) => {
   const jwtToken = getToken(req);
   const user = verifyToken(jwtToken);
 
   try {
-    const userData = await listService.getListByUserId(user.email.toLowerCase());
-
-    return responseTransformer(res, userData, "Details of a User", true);
+    const listData = await listService.getListByUserId(user.id);
+    return responseTransformer(res, listData, "Details of a list", true);
   } catch (err) {
     return responseTransformer(
       res,
       err,
-      "Failed to Fetch Details Of User",
+      "Failed to Fetch Details Of list",
       false
     );
   }
@@ -62,7 +61,6 @@ controller.myList = async (req, res, next) => {
 controller.getAll = async (req, res, next) => {
   try {
     const result = await listService.getAll(req.query);
-
     return responseTransformer(res, result, "All records for lists", true);
   } catch (error) {
     return responseTransformer(res, error, "Failed to Load All lists", false);
@@ -77,19 +75,11 @@ controller.getAll = async (req, res, next) => {
  */
 
 controller.create = async (req, res, next) => {
-  // const validate = validateCreateAndUpdate(req);
-  // if (validate.length) {
-  //   return responseTransformer(
-  //     res,
-  //     validate,
-  //     "Schema Validation Failed",
-  //     false
-  //   );
-  // }
+  const jwtToken = getToken(req);
+  const user = verifyToken(jwtToken);
 
   try {
-    const result = await listService.create(req.body);
-
+    const result = await listService.create({...req.body,user});
     return responseTransformer(res, result, "New list Created", true);
   } catch (error) {
     return responseTransformer(res, error, "Failed to Create New list", false);
@@ -104,16 +94,6 @@ controller.create = async (req, res, next) => {
  */
 
 controller.update = async (req, res, next) => {
-  // const validate = validateCreateAndUpdate(req);
-  // if (validate.length) {
-  //   return responseTransformer(
-  //     res,
-  //     validate,
-  //     "Schema Validation Failed",
-  //     false
-  //   );
-  // }
-
   try {
     const result = await listService.update(req.body, req.params.id);
     if (result && result[0]) {
