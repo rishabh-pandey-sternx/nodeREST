@@ -31,7 +31,7 @@ authValidator.forgotPassword = ((req,res,next)=>{
 
 authValidator.resetPassword = ((req,res,next)=>{
   const schema =  Joi.object().keys({
-    email: Joi.string().required().email(),
+    password: Joi.string().required(),
     token: Joi.string().required(),
     id: Joi.string().required(),
   });

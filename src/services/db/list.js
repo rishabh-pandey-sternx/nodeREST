@@ -19,7 +19,7 @@ service.getListByUserId = async data => {
 };
 // Fetch list by id
 service.getOneById = async data => {
-    return await list.findById({_id: data.id});
+    return await list.findById({_id: data});
 };
  
   
@@ -47,9 +47,7 @@ service.getAll = async data => {
 };
 
 service.update = async (data,id) => {
-  await list.findByIdAndUpdate({_id: id}, {
-    $set: { listName: data.listName },
-  }, { new: true });
+  return await list.findByIdAndUpdate({_id:id}, $set = {listName: data.listName}, { new: true });
 };
 
 service.destroy = async id => {

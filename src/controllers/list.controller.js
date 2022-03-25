@@ -106,6 +106,7 @@ controller.update = async (req, res, next) => {
     }
     throw new Error("Can-not Find list With This id");
   } catch (error) {
+    console.log(error);
     responseTransformer(res, error, "Failed To Update list", false);
   }
 };
