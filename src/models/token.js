@@ -17,6 +17,6 @@ const tokenSchema = new Schema({
     default: Date.now,
     expires: 900,
   },
-},{ collection:"token", timestamps: true });
+},{ collection:"tokens", timestamps: true });
 
 module.exports = mongoose.model("Token", tokenSchema);

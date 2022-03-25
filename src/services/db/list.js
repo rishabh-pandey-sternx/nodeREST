@@ -45,7 +45,6 @@ service.getAll = async data => {
       },
     }
   } catch (e) {
-    console.log("Error", e)
     return e;
   }
 };

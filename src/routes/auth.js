@@ -20,4 +20,7 @@ router.post('/change-password', validateJwt(), authController.changePassword);
 // Sends mail for that user's email with link to change password
 router.post('/forgot-password', authController.forgotPassword);
 
+// reset password
+router.get('/reset-password', authController.resetPassword);
+
 module.exports = router;

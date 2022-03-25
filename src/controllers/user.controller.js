@@ -1,5 +1,5 @@
 const userService = require("../services/db/user");
-const { verifyToken, getToken } = require("../services/thirdParty/auth");
+const { verifyToken, getToken } = require("../utils/jwt");
 
 const userValidator = require("../validators/user");
 
@@ -35,7 +35,6 @@ controller.getOneById = async (req, res, next) => {
 controller.aboutMe = async (req, res, next) => {
   const jwtToken = getToken(req);
   const user = verifyToken(jwtToken);
-  console.log(user,"dsbjkbj")
   try {
     const userData = await userService.getOneByEmail(user.email.toLowerCase());
     return responseTransformer(res, userData, "Details of a User", true);

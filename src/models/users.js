@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const userSchema = new Schema({
 email: { type: String, unique: true, lowercase: true, required: true },
 password: { type: String, select: false, required: true },
 role: { type: String, enum: ['user', 'admin'], default: 'user' },
@@ -16,7 +16,7 @@ fullName: {type: String, required: true}
 /**
  * This is the middleware, It will be called before saving any record
  */
-UserSchema.pre('save', function(next) {
+userSchema.pre('save', function(next) {
     var user = this;
     // only hash the password if it has been modified (or is new)
     if (!user.isModified('password')) return next();
@@ -33,11 +33,11 @@ UserSchema.pre('save', function(next) {
     });
 });
      
-UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch);
     });
 };
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', userSchema);

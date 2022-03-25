@@ -1,6 +1,6 @@
 const listService = require("../services/db/list");
 
-const { verifyToken, getToken } = require("../services/thirdParty/auth");
+const { verifyToken, getToken } = require("../utils/jwt");
 
 const { validateCreateAndUpdate } = require("../validators/list");
 
