@@ -1,0 +1,99 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+ const { createTerminus } = require('@godaddy/terminus')
+ const http = require('http');
+ const app = require('./src/app');
+ 
+ /**
+  * Get port from environment and store in Express.
+  */
+ 
+ const port = normalizePort(process.env.PORT || '3000');
+ 
+ /**
+  * Create HTTP server.
+  */
+ const server = http.createServer(app);
+  
+ /**
+  * Normalize a port into a number, string, or false.
+  */
+ 
+ function normalizePort(val) {
+   const port = parseInt(val, 10);
+ 
+   if (isNaN(port)) {
+     // named pipe
+     return val;
+   }
+ 
+   if (port >= 0) {
+     // port number
+     return port;
+   }
+   return false;
+ }
+ 
+ /**
+  * Event listener for HTTP server "error" event.
+  */
+ 
+ function onError(error) {
+   if (error.syscall !== 'listen') {
+     throw error;
+   }
+ 
+   const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+ 
+   // handle specific listen errors with friendly messages
+   switch (error.code) {
+     case 'EACCES':
+       console.error(bind + ' requires elevated privileges');
+       process.exit(1);
+       break;
+     case 'EADDRINUSE':
+       console.error(bind + ' is already in use');
+       process.exit(1);
+       break;
+     default:
+       throw error;
+   }
+ }
+ 
+ /**
+  * Event listener for HTTP server "listening" event.
+  */
+ 
+ function onListening() {
+   const addr = server.address();
+   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+   debug('Listening on ' + bind);
+ }
+
+ function onSignal () {
+  console.log('server is starting cleanup')
+  // start cleanup of resource, like databases or file descriptors
+}
+
+async function onHealthCheck () {
+  // checks if the system is healthy, like the db connection is live
+  // resolves, if health, rejects if not
+}
+
+createTerminus(server, {
+  signal: 'SIGINT',
+  healthChecks: { '/healthcheck': onHealthCheck },
+  onSignal
+})
+
+
+ process.on('SIGTERM', () => {
+  debug('SIGTERM signal received: closing HTTP server')
+  server.close(() => {
+    debug('HTTP server closed')
+  })
+})
