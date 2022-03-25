@@ -1,5 +1,7 @@
 const { get } = require('lodash');
 const list = require('../../models/list.model');
+var mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
 
 let service = {};
 
@@ -45,10 +47,9 @@ service.getAll = async data => {
 };
 
 service.update = async (data,id) => {
-  await list.findByIdAndUpdate({_id:id}, {
+  await list.findByIdAndUpdate({_id: id}, {
     $set: { listName: data.listName },
-  });
-
+  }, { new: true });
 };
 
 service.destroy = async id => {

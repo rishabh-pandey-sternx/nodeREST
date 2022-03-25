@@ -35,7 +35,7 @@ authValidator.resetPassword = ((req,res,next)=>{
     token: Joi.string().required(),
     id: Joi.string().required(),
   });
-  const data ={...req,body, ...req.query}
+  const data ={...req.body, ...req.query}
    return schema.validate(data);
 }) 
 

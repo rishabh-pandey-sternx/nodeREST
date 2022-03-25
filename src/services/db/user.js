@@ -66,7 +66,7 @@ service.destroy = async data => {
 };
 
 service.update = async (data, id) => {
-  return await user.findByIdAndUpdate({_id:id}, $set = data);
+  return await user.findByIdAndUpdate({_id:id}, $set = data, { new: true });
 }
 
   module.exports = service;

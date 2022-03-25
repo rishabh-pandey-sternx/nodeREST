@@ -68,7 +68,6 @@
        const result = await authService.resetPassword(req.query, req.body);
       return responseTransformer(res, result, 'Password Changed Successfully', true);
     } catch (e) {
-      console.log(e, "aas")
       return responseTransformer(res, e, 'Failed to reset password', false);
     }
   };

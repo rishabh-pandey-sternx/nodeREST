@@ -2,7 +2,7 @@ const listService = require("../services/db/list");
 
 const { verifyToken, getToken } = require("../utils/jwt");
 
-const { validateCreateAndUpdate } = require("../validators/list");
+const listValidator = require("../validators/list");
 
 const responseTransformer = require("../middlewares/transformResponse");
 
@@ -15,9 +15,10 @@ const controller = {};
  */
 
 controller.getOne = async (req, res, next) => {
+  const {value,error} = listValidator.getOneList(req,res,next);
+  if(error) return responseTransformer(res, error, 'Schema Validation Failed', false);
   try {
     const result = await listService.getOneById(req.params.id);
-
     if (result) {
       return responseTransformer(res, result, "List Details", true);
     }
@@ -75,6 +76,8 @@ controller.getAll = async (req, res, next) => {
  */
 
 controller.create = async (req, res, next) => {
+  const {value,error} = listValidator.createList(req,res,next);
+  if(error) return responseTransformer(res, error, 'Schema Validation Failed', false);
   const jwtToken = getToken(req);
   const user = verifyToken(jwtToken);
 
@@ -94,9 +97,11 @@ controller.create = async (req, res, next) => {
  */
 
 controller.update = async (req, res, next) => {
+  const {value,error} = listValidator.updateById(req,res,next);
+  if(error) return responseTransformer(res, error, 'Schema Validation Failed', false);
   try {
     const result = await listService.update(req.body, req.params.id);
-    if (result && result[0]) {
+    if (result) {
       return responseTransformer(res, result, "List Details Updated", true);
     }
     throw new Error("Can-not Find list With This id");
@@ -114,6 +119,8 @@ controller.update = async (req, res, next) => {
  */
 
 controller.destroy = async (req, res, next) => {
+  const {value,error} = listValidator.deleteById(req,res,next);
+  if(error) return responseTransformer(res, error, 'Schema Validation Failed', false);
   try {
     const result = await listService.destroy(req.params.id);
     if (result && result[0]) {

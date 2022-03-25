@@ -16,10 +16,9 @@ var transporter = nodemailer.createTransport({
 
 function sendEmail(userEmail,subject, responseObj, type) {
     const locals = Object.assign({}, { data: responseObj });
-        ejs.render((__dirname,'../../template' +`${type}.ejs`),locals, (err, results) => { //eslint-disable-line
-          console.log(err,results, "ankb")
+        ejs.render((__dirname,'../../template' +`${type}.ejs`),locals, (err, results) => {
           if (err) {
-            return console.error(err); 
+            return err;
           }
           const mailOptions = {
             from: process.env.FROM_EMAIL, // sender address
@@ -30,10 +29,8 @@ function sendEmail(userEmail,subject, responseObj, type) {
           };
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log('error in emailApi', error);
               return error;
             }
-            console.log('result in emailApi', info);
             return info;
           });
         });
