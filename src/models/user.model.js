@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
 email: { type: String, unique: true, lowercase: true, required: true },
-password: { type: String, select: false, required: true },
+password: { type: String, required: true },
 role: { type: String, enum: ['user', 'admin'], default: 'user' },
 fullName: {type: String, required: true}
 },{ collection:"users", timestamps: true });
@@ -34,10 +34,10 @@ userSchema.pre('save', function(next) {
 });
      
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
-    console.log(candidatePassword, this, "candidatePassword, this.password")
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    return bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        // console.log(err, isMatch, "err, isMatcherr, isMatch");
         if (err) return cb(err);
-        cb(null, isMatch);
+        return cb(null, isMatch);
     });
 };
 

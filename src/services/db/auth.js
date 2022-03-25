@@ -15,13 +15,22 @@ services.signup = async data => {
     }
     user = new User(data);  
     await user.save();
-    const token = jwtLib.createToken(user)
+    const token = jwtLib.createToken(user);
+    sendEmail(
+      user.email,
+      "Welcome to Node REST API",
+      {
+        fullName: user.fullName,
+      },
+     "welcome"
+    );
     return (data = {
         userId: user._id,
         email: user.email,
         fullName: user.fullName,
         token: token,
     });
+
 }
 
 services.login = async data => {
@@ -29,11 +38,9 @@ services.login = async data => {
     if (!user) {
         throw new Error("No such user exist");
     }
-    const isValid = await bcrypt.compare(data.password, user.password);
-    if (!isValid) {
-        throw new Error("Invalid password");
-    }
-   const token = jwtLib.createToken(user)
+  const validPassword = await bcrypt.compare(data.password, user.password);
+  if(!validPassword) throw new Error("Invalid password");
+  const token = jwtLib.createToken(user)
     return (data = {
         userId: user._id,
         email: user.email,
@@ -47,7 +54,6 @@ services.passwordResetMail = async data => {
         if (!user) throw new Error("Email does not exist");
         let token = await Token.findOne({ userId: user._id });
         if (token) await token.deleteOne();
-        console.log(token,"tokentoken")
         let resetToken = crypto.randomBytes(32).toString("hex");
         const hash = await bcrypt.hash(resetToken, Number(process.env.BCRYPT_SALT));
         await new Token({
@@ -60,10 +66,10 @@ services.passwordResetMail = async data => {
           user.email,
           "Password Reset Request",
           {
-            name: user.fullName,
+            fullName: user.fullName,
             link: link,
           },
-          "./template/requestResetPassword.handlebars"
+         "forgotPassword"
         );
         return link;
 

@@ -33,7 +33,7 @@
       const result = await authService.login(req.body);
       return responseTransformer(res, result, 'Logged User Successfully', true);
     } catch (e) {
-      console.log(e, "eee")
+      if(e.message=='Invalid password') return responseTransformer(res, e, 'Invalid password', false);
       return responseTransformer(res, e, 'Login User Failed', false);
     }
   };

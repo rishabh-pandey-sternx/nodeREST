@@ -1,44 +1,42 @@
-const nodemailer = require("nodemailer");
-const handlebars = require("handlebars");
-const fs = require("fs");
-const path = require("path");
 
-const sendEmail = async (email, subject, payload, template) => {
-  try {
-    // create reusable transporter object using the default SMTP transport
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: 465,
-      auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD, // naturally, replace both with your real credentials or an application-specific password
-      },
-    });
+const nodemailer = require('nodemailer');
+const smtpTransport = require( 'nodemailer-smtp-transport');
+const path = require('path');
+const ejs = require("ejs");
 
-    const source = fs.readFileSync(path.join(__dirname, template), "utf8");
-    const compiledTemplate = handlebars.compile(source);
-    const options = () => {
-      return {
-        from: process.env.FROM_EMAIL,
-        to: email,
-        subject: subject,
-        html: compiledTemplate(payload),
-      };
-    };
-
-    // Send email
-    transporter.sendMail(options(), (error, info) => {
-      if (error) {
-        return error;
-      } else {
-        return res.status(200).json({
-          success: true,
-        });
-      }
-    });
-  } catch (error) {
-    return error;
+var transporter = nodemailer.createTransport({
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
+  secure: true, // use SSL
+  auth: {
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD
   }
-};
+});
 
+function sendEmail(userEmail,subject, responseObj, type) {
+    const locals = Object.assign({}, { data: responseObj });
+        ejs.render((__dirname,'../../template' +`${type}.ejs`),locals, (err, results) => { //eslint-disable-line
+          console.log(err,results, "ankb")
+          if (err) {
+            return console.error(err); 
+          }
+          const mailOptions = {
+            from: process.env.FROM_EMAIL, // sender address
+            to: userEmail, // list of receiver
+            subject: subject ,  // Subject line
+            text: results.text, // plain text body
+            html: results.html // html body
+          };
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              console.log('error in emailApi', error);
+              return error;
+            }
+            console.log('result in emailApi', info);
+            return info;
+          });
+        });
+
+}
 module.exports = sendEmail;
